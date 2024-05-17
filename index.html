@@ -8,14 +8,10 @@
 <body>
     <div class="searchParametrs">
     <div class="chechOpt">
-    <p>Диссертация</p>
-    <input type="checkbox" id="diss" title=";p;"> 
-    <p>НИОКТР</p>
-    <input type="checkbox" id="nioktr" title=";p;"> 
-    <p>РИД</p>
-    <input type="checkbox" id="rid" title=";p;"> 
-    <p>НАУЧНЫЙ ОТЧЕТ</p>
-    <input type="checkbox" id="nauch" title=";p;"> 
+        <p> <input type="checkbox" id="diss" title=";p;"> Диссертация</p>
+        <p> <input type="checkbox" id="nioktr" title=";p;"> НИОКТР</p>
+        <p> <input type="checkbox" id="rid" title=";p;"> РИД</p>
+        <p> <input type="checkbox" id="nauch" title=";p;"> НАУЧНЫЙ ОТЧЕТ</p>
     </div>
     <div class="searchParametrs-2">
     <p>Сортировка по:</p>
@@ -30,10 +26,15 @@
         <option value="10178176">Кубгау</option>
         <option value="10109220">Кубгму</option>
     </select>
-   
-   
+    
    
    </div>
+<div class="date-field">
+    <p>Начальная дата:
+    <input type="date" id="start-date" name="trip-start" value="2024-02-22" min="0000-01-01" max="2024-12-31" /></p>
+    <p>Конечная дата: 
+    <input type="date" id="end-date" name="trip-start" value="2024-03-22" min="0000-01-01" max="2024-12-31" /></p>
+</div>
     <div class="serb">
     <button id="getDATA">Смотреть</button>
     <button id="getDATA2">Анализ</button>
