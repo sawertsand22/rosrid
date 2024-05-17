@@ -1,8 +1,8 @@
-let uid1 = '';
+//let uid1 = '';
 
 
-async function get_pages(uid,diss,nioktr,rid,nauch,sort) {
-  saw = await  fff(uid,diss,nioktr,rid,nauch,sort)
+async function get_pages(uid,diss,nioktr,rid,nauch,sort,start_date,end_date) {
+  saw = await  fff(uid,diss,nioktr,rid,nauch,sort,start_date,end_date)
         .then(function (response) {
             // handle success
             //let d = document.createElement('div');
@@ -21,8 +21,8 @@ async function get_pages(uid,diss,nioktr,rid,nauch,sort) {
     return saw;
 }
 
-async function get_page_by_id(id,uid) {
-  saw = await  ff(uid,id)
+async function get_page_by_id(i, vuz,diss,nioktr,rid,nauch,sort,start_date,end_date) {
+  saw = await  ff(i, vuz,diss,nioktr,rid,nauch,sort,start_date,end_date)
         .then(function (response) {
             // handle success
             //let d = document.createElement('div');
@@ -43,31 +43,55 @@ async function get_page_by_id(id,uid) {
 
 
 
-async function pagesbyUid(uid)
-{
-    uid1 = uid;
-    
-    let res = await get_pages(uid);
-    
-    //console.log('diss',diss.checked);
-    console.log('res', res);
-    createPages(res);
-}
+//async function pagesbyUid(uid)
+//{
+//    uid1 = uid;
+//    
+//    let res = await get_pages(uid);
+//    
+//    //console.log('diss',diss.checked);
+//    console.log('res', res);
+//    createPages(res);
+//}
 
 
-async function change_page(i,uid)
-{   let vuz = document.getElementById('vuz-select').value;
-    let res = await get_page_by_id(i, vuz);
+async function change_page(i) {
+    console.log('i', i);
+    let diss = document.getElementById('diss').checked;
+    let nioktr = document.getElementById('nioktr').checked;
+    let rid = document.getElementById('rid').checked;
+    let nauch = document.getElementById('nauch').checked;
+    let vuz = document.getElementById('vuz-select').value;
+    let sort = document.getElementById('sort-select').value;
+    let start_date = document.getElementById('start-date').value;
+    let sd = new Date(start_date);
+    let end_date = document.getElementById('end-date').value;
+    let ed = new Date(end_date);
+    let sdComlete = getFormatDateField(sd);
+    let edComlete = getFormatDateField(ed);
+    console.log('start_date', ed);
+    let res = await get_page_by_id(i, vuz, diss, nioktr, rid, nauch, sort,sdComlete,edComlete);
     console.log('АГШФЫВПАФЫВПОЩРФПАЩОРФЩПОРПЩР res', res);
-    await get_page(res);
+    await get_page(res,i);
     console.log('resID', i);
     createPages(i)
-
+    let btn = document.getElementById(i);
+    btn.style.background = 'rgb(184, 217, 245)';
 
 
 
 }
 let RRRRR = 0;
+
+function getFormatDateField(datefield)
+{   
+    let day = ("0" + datefield.getDate()).slice(-2);
+    let month = ("0" + (datefield.getMonth() + 1)).slice(-2);
+    let date = datefield.getFullYear() + "-" + (month) + "-" + (day);
+    console.log('today', date);
+    
+    return date;
+}
 
 async function show()
 {
@@ -82,7 +106,13 @@ async function show()
     console.log('diss.checked', diss.checked);
     console.log('diss.checked', diss.checked);
     console.log('diss.checked', diss.checked);
-    let res = await get_pages(vuz, diss, nioktr, rid, nauch, sort);
+    let start_date = document.getElementById('start-date').value;
+    let end_date = document.getElementById('end-date').value;
+    let sd = new Date(start_date);
+    let ed = new Date(end_date);
+    let sdComlete = getFormatDateField(sd);
+    let edComlete = getFormatDateField(ed);
+    let res = await get_pages(vuz, diss, nioktr, rid, nauch, sort,sdComlete,edComlete);
     //Analysis(res);\
     //showAnalysis();
     RRRRR = res;
@@ -99,12 +129,14 @@ async function show2()
     let nauch = document.getElementById('nauch').checked;
     let vuz = document.getElementById('vuz-select').value;
     let sort = document.getElementById('sort-select').value;
+    let start_date = document.getElementById('start-date');
+    let end_date = document.getElementById('end-date');
     console.log('diss.checked', diss);
     console.log('diss.checked', diss.checked);
     console.log('diss.checked', diss.checked);
     console.log('diss.checked', diss.checked);
     console.log('diss.checked', diss.checked);
-    let res = await get_pages(vuz, diss, nioktr, rid, nauch, sort);
+    //let res = await get_pages(vuz, diss, nioktr, rid, nauch, sort);
     //Analysis(res);\
     showAnalysis();
     //RRRRR = res;
@@ -121,17 +153,17 @@ function createPages(currentP)
     res = res / 10;
     res = Math.floor(res);
     console.log('res', res);
-    if (document.getElementById(`${1}`) !== null)
-        while(document.getElementById(`${j + 1}`)!==null)
-    {
-        if (document.getElementById(`${j + 1}`) !== null)
-                element = document.getElementById(`${j + 1}`);
-            element.remove();
-            j++
-        }
+    if (res != 0) {
+        if (document.getElementById(`${1}`) !== null)
+            while (document.getElementById(`${j + 1}`) !== null) {
+                if (document.getElementById(`${j + 1}`) !== null)
+                    element = document.getElementById(`${j + 1}`);
+                element.remove();
+                j++
+            }
     
-      if (document.getElementById('btns'))
-        document.getElementById('btns').remove();
+        if (document.getElementById('btns'))
+            document.getElementById('btns').remove();
     
     
         div = document.createElement('div')
@@ -144,58 +176,77 @@ function createPages(currentP)
     
     
     
-    if (document.getElementById('first'))
-        document.getElementById('first').remove();
+        if (document.getElementById('first'))
+            document.getElementById('first').remove();
             
-    if (document.getElementById('last'))
-        document.getElementById('last').remove();
+        if (document.getElementById('last'))
+            document.getElementById('last').remove();
             
         btn = document.createElement('button');
-        btn.addEventListener('click', () => { return change_page(1, uid1); });
-    console.log('uid1', uid1);
-    btn.innerText = 'Первая';
-    btn.id = 'first';
-    divb.appendChild(btn);
+        btn.addEventListener('click', () => { return change_page(1); });
+        //console.log('uid1', uid1);
+        btn.innerText = 'Первая';
+        btn.id = 'first';
+        divb.appendChild(btn);
 
     
 
-    //for (let i = 0; i <= res; i++) {
-    //    btn = document.createElement('button');
-    //    btn.addEventListener('click', () => { return change_page(i + 1, uid1); });
-    //    console.log('uid1', uid1);
-    //    btn.innerText = i + 1;
-    //    btn.id = i + 1;
-    //    divb.appendChild(btn);
-    //    
-    //}
+        //for (let i = 0; i <= res; i++) {
+        //    btn = document.createElement('button');
+        //    btn.addEventListener('click', () => { return change_page(i + 1, uid1); });
+        //    console.log('uid1', uid1);
+        //    btn.innerText = i + 1;
+        //    btn.id = i + 1;
+        //    divb.appendChild(btn);
+        //    
+        //}
     
         let min_page = currentP - 2;
         let max_page = currentP + 2;
         if (min_page < 1) {
-          min_page = 0;
-          max_page = 4;
-    }
-    console.log('res', res);
-        if (max_page > res)
+            min_page = 0;
+            max_page = 4;
+        }
+        console.log('faSFASFASFASDFASF res', res);
+        if (max_page >= res + 1) {
+            max_page = res;
+            min_page = res - 4;
+        }
+        console.log('max_page', max_page);
+        console.log('min_page', min_page);
+        if (res < 4 && res > 0) {
+            for (let i = 0; i <= res; i++) {
+                btn = document.createElement('button');
+                btn.addEventListener('click', () => { return change_page(i + 1); });
+                //console.log('uid1', uid1);
+                btn.innerText = i + 1;
+                btn.id = i + 1;
+                //btn.classList.add('selectedBTN');
+                divb.appendChild(btn);
+            }
+        }
+
+   
+        else (res > 4)
         {
-          max_page = Math.ceil(currentP);
-          min_page = Math.ceil(currentP) - 4;
-        } 
-          for (let i = min_page; i <= max_page; i++) {
-        btn = document.createElement('button');
-        btn.addEventListener('click', () => { return change_page(i + 1, uid1); });
-        console.log('uid1', uid1);
-        btn.innerText = i + 1;
-        btn.id = i + 1;
-        divb.appendChild(btn);
+            for (let i = min_page; i <= max_page; i++) {
+                btn = document.createElement('button');
+                btn.addEventListener('click', () => { return change_page(i + 1); });
+                //console.log('uid1', uid1);
+                btn.innerText = i + 1;
+                btn.id = i + 1;
+                //btn.classList.add('selectedBTN');
+                divb.appendChild(btn);
         
+            }
+        }
+        btnl = document.createElement('button');
+        btnl.addEventListener('click', () => { return change_page(res + 1); });
+        //console.log('uid1', uid1);
+        btnl.innerText = 'Последняя';
+        btnl.id = 'last';
+        divb.appendChild(btnl);
     }
-btnl = document.createElement('button');
-    btnl.addEventListener('click', () => { return change_page(res+1 , uid1); });
-    console.log('uid1', uid1);
-    btnl.innerText = 'Последняя';
-    btnl.id = 'last';
-    divb.appendChild(btnl);
 
 }
 

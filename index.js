@@ -24,24 +24,24 @@
 let id = 1
 const search_url = 'https://rosrid.ru/api/base/search';
 const uid = '10184556';
-const start_date = '2022-01-01';
-const end_date = '2023-12-31';
+//const start_date = '2022-01-01';
+//const end_date = '2023-12-31';
 
-function set_payload(page,uid) { //Задает payload для запроса
+function set_payload(page,uid,diss,nioktr,rid,nauch,sort,start_date,end_date) { //Задает payload для запроса
   const payload = {
   search_query: null,
   critical_technologies: [],
-  dissertations: false,
+  dissertations: diss,
   full_text_available: false,
-  ikrbses: false,
-  nioktrs: false,
+  ikrbses: nauch,
+  nioktrs: nioktr,
   organization: [uid],
   page: page,
   priority_directions: [],
-  rids: false,
+  rids: rid,
   rubrics: [],
   search_area: 'Во всех полях',
-  sort_by: 'Дата регистрации',
+  sort_by: sort,
   open_license: false,
   free_licenses: false,
   expert_estimation_exist: false,
@@ -50,7 +50,7 @@ function set_payload(page,uid) { //Задает payload для запроса
   };
   return payload;
 }
-function set_payloadForPages(page,uid,diss,nioktr,rid,nauch,sort) { //Задает payload для запроса
+function set_payloadForPages(page,uid,diss,nioktr,rid,nauch,sort,start_date,end_date) { //Задает payload для запроса
   const payload = {
   search_query: null,
   critical_technologies: [],
@@ -99,10 +99,10 @@ function set_payloadForPages(page,uid,diss,nioktr,rid,nauch,sort) { //Задае
   });
   return instance;
 }
-async function get_pageQ(uid, diss, nioktr, rid, nauch, sort) {
+async function get_pageQ(uid, diss, nioktr, rid, nauch, sort,start_date,end_date) {
   console.log('БЫЛА ВЫЗВАНА ЗАЛУПА ИТЗ РАНЕЕЕ СМОЗДАННОГО СЕРВАКА');
   instance =  await get_instance();
-  let und = await instance.post('api/base/search', set_payloadForPages(numbOfPage, uid,diss,nioktr,rid,nauch,sort))
+  let und = await instance.post('api/base/search', set_payloadForPages(1, uid,diss,nioktr,rid,nauch,sort,start_date,end_date))
     .then(function (response) {
       //console.log(response);
       //for (let i = 0; i < max_in_page;i++)
@@ -117,9 +117,9 @@ async function get_pageQ(uid, diss, nioktr, rid, nauch, sort) {
   console.log(' ЗАЛУПА С СЕРВАКА НАХУЙ  und', und)
   return und;
 }
-async function get_page_by_idQ(id,uid) {
+async function get_page_by_idQ(id,uid,diss,nioktr,rid,nauch,sort,start_date,end_date) {
   instance =  await get_instance();
-  let und = await instance.post('api/base/search', set_payload(id,uid))
+  let und = await instance.post('api/base/search', set_payloadForPages(id,uid,diss,nioktr,rid,nauch,sort,start_date,end_date))
     .then(function (response) {
       //console.log(response);
       //for (let i = 0; i < max_in_page;i++)
@@ -137,15 +137,15 @@ let numbOfPage = 1
 let max_in_page = 10;
 //let data = ['afasfasfaf'];
 let q = [];
-async function fff(uid,diss,nioktr,rid,nauch,sort){
-  let data = await get_pageQ(uid,diss,nioktr,rid,nauch,sort);
+async function fff(uid,diss,nioktr,rid,nauch,sort,start_date,end_date){
+  let data = await get_pageQ(uid,diss,nioktr,rid,nauch,sort,start_date,end_date);
   console.log('data', data);
   console.log(' ЗАЛУПА 333333 с FFF data.hits.total', data.hits.total);
   return data.hits.total;
 }
 
-async function ff(uid,id) {
-  let data = await get_page_by_idQ(id,uid);
+async function ff(i, uid,diss,nioktr,rid,nauch,sort,start_date,end_date) {
+  let data = await get_page_by_idQ(i,uid,diss,nioktr,rid,nauch,sort,start_date,end_date);
   return data.hits.hits;
 }
   

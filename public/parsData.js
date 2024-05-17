@@ -12,14 +12,15 @@ function get_authors(data,i)
        
       }
     }
-    else {
+    else if(data[i]?._source?.authors_name){
       let name =data[i]._source.authors_name;
       let surname = data[i]._source.authors_surname;
       let patronymic = data[i]._source.authors_patronymic;
         
        str+= `ФИО: ${surname} ${name} ${patronymic} \r\n`;
      
-    }
+  }
+  str = 'Нет Данных';
     
   return str;
 }
@@ -50,8 +51,9 @@ function get_work_supervisor(data, i)
 
 function get_oecds(data, i)
 { // Возвращает строку с oecds
-  if (data[i]._source.oecds)
+  if (data[i]?._source?.oecds?.name)
   {
     return `Имя: ${data[i]._source.oecds[0].name} Код: ${data[i]._source.oecds[0].code}`; 
   }
+  return "Нет данных";
 }

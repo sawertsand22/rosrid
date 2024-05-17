@@ -193,7 +193,7 @@ footer {
 }
 .chechOpt
 {
-    display: flex;
+    
      justify-content: center;
  justify-items: center;
  margin: 1rem;
@@ -229,7 +229,7 @@ align-items: center;
   border-radius: 10px;
 
 }
-#sort-select, #vuz-select
+#sort-select, #vuz-select,#start-date,#end-date
 {
   color: #000;
   background-color: #b371ff;
@@ -311,4 +311,14 @@ body
   margin: auto;
   text-align: center;
   display: block;
+}
+
+.selectedBTN
+{
+  background-color: rgb(184, 217, 245);
+}
+
+.date-field
+{
+  margin: 1rem;
 }

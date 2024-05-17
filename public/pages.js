@@ -24,7 +24,7 @@ function setModalData(popup,data, i)
 }
 
 
-function get_page(data) { //Задает отрображение элементов для выбранной страницы
+function get_page(data,number_page) { //Задает отрображение элементов для выбранной страницы
     if (document.getElementById('div_1') !== null)
         for (let i = 0; i < 10; i++) {
             if (document.getElementById(`div_${i}`))
@@ -48,13 +48,13 @@ function get_page(data) { //Задает отрображение элемент
         //    Дата внутри
         //</div>
         //   ШАБЛОН ДЛЯ МОДАЛЬНОГ ОКНА
-        if (data[i]._source.name) {
+        if (data[i]?._source?.name) {
             pages.appendChild(div);
             a = document.createElement('a');
             a.href = `#win${i}`;
             a.classList.add("button");
             a.classList.add("button-blue");
-            a.innerHTML = `№ ${i+1} ${data[i]._source.name}`;
+            a.innerHTML = `№ ${number_page*10-10 + i+1} ${data[i]._source.name}`;
             div.appendChild(a);
             aSub = document.createElement('a');
             aSub.href = '#x';
