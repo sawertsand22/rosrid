@@ -304,6 +304,54 @@ function Analysis(res) {
     });
 }
 
+function AnalRadar(data) {
+    console.log('data', data);
+    const config = {
+        type: 'radar',
+        data: ['1'],
+        options: {
+            elements: {
+                line: {
+                    borderWidth: 3
+                }
+            }
+        },
+    };
+    if (document.getElementById('myChart2'))
+        document.getElementById('myChart2').remove();
+    let chart2 = document.getElementById('chart2');
+    let canvas2 = document.createElement('canvas')
+    canvas2.id = 'myChart2';
+    chart2.appendChild(canvas2);
+    const ctx2 = document.getElementById('myChart2');
+    new Chart(ctx2, {
+        type: 'radar',
+        data: data,
+        options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+//options: {
+//  elements: {
+//    line: {
+//      borderWidth: 3
+//    }
+//  }
+//      },
+//tions: {
+//          scales: {
+//              y: {
+//                  beginAtZero: true
+//              }
+//          }
+//      }    });
+}
+
+
 async function showAnalysis()
 {
     let diss = document.getElementById('diss').checked;
@@ -312,6 +360,12 @@ async function showAnalysis()
     let nauch = document.getElementById('nauch').checked;
     let vuz = document.getElementById('vuz-select').value;
     let sort = document.getElementById('sort-select').value;
+    let start_date = document.getElementById('start-date').value;
+    let end_date = document.getElementById('end-date').value;
+    let sd = new Date(start_date);
+    let ed = new Date(end_date);
+    let sdComlete = getFormatDateField(sd);
+    let edComlete = getFormatDateField(ed);
     console.log('diss.checked', diss);
     console.log('diss.checked', diss.checked);
     console.log('diss.checked', diss.checked);
@@ -319,11 +373,88 @@ async function showAnalysis()
     console.log('diss.checked', diss.checked);
 
     let res=[];
-    for (keys in listUniversirty) {
-        res[keys] = await get_pages(listUniversirty[keys], diss, nioktr, rid, nauch, sort);
+    for (let keys in listUniversirty) {
+        res[keys] = await get_pages(listUniversirty[keys], diss, nioktr, rid, nauch, sort,sdComlete,edComlete);
         console.log('keys', keys);
     }
+    let res2 = [[],[],[],[]]; 
+    for (let keys in listUniversirty)
+    {
+        res2[keys][0] = await get_pages(listUniversirty[keys], true, false, false, false, sort,sdComlete,edComlete)
+        res2[keys][1] = await get_pages(listUniversirty[keys], false, true, false, false, sort,sdComlete,edComlete)
+        res2[keys][2] = await get_pages(listUniversirty[keys], false, false, true, false, sort,sdComlete,edComlete)
+        res2[keys][3] = await get_pages(listUniversirty[keys], false, false, false, true, sort,sdComlete,edComlete)
+    
+    }
+    let listUni = ['Кубгу', 'Кубгту','Кубгау','Кубгму']
+    console.log('res2', res2);
+    let dataTEST = {
+        labels: [
+            'diss',
+            'nioktr',
+            'rid',
+            'nauch',
+        ],
+        datasets: []
+    }
+    let datasets = [];
+    for (let keys in res2)
+    {
+        let dataset ={}
+        dataset['label'] = listUni[keys];
+        let dat = [];
+        for (let i = 0; i < 4; i++)
+        {
+            dataTEST['datasets']
+            = res2[keys][i];
+            dat.push(res2[keys][i]);
+            
+        }
+    //dataset['backgroundColor']= 'rgba(255, 99, 132, 0.2)',
+    //dataset['borderColor'] = 'rgb(255, 99, 132)',
+    //dataset['pointBackgroundColor'] ='rgb(255, 99, 132)',
+    //dataset['pointBorderColor'] ='#fff',
+    //dataset['pointHoverBackgroundColor'] ='#fff',
+    //dataset['pointHoverBorderColor']= 'rgb(255, 99, 132)'
+        console.log('dat', dat);
+        dataset['data'] = dat;
+        datasets.push(dataset);
+    }
+    dataTEST['datasets'] = datasets;
+        console.log('AGOISDHJGUASHDG{OUHSGUOHAS{UIOGHASO{UIGHA',dataTEST);
+
+
+    const data = {
+  labels: [
+    'diss',
+    'nioktr',
+    'rid',
+    'nauch',
+  ],
+  datasets: [{
+    label: 'My First Dataset',
+    data: [65,],
+    fill: true,
+    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+    borderColor: 'rgb(255, 99, 132)',
+    pointBackgroundColor: 'rgb(255, 99, 132)',
+    pointBorderColor: '#fff',
+    pointHoverBackgroundColor: '#fff',
+    pointHoverBorderColor: 'rgb(255, 99, 132)'
+  }, {
+    label: 'My Second Dataset',
+    data: [28, 48, 40, 19, 96, 27, 100],
+    fill: true,
+    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+    borderColor: 'rgb(54, 162, 235)',
+    pointBackgroundColor: 'rgb(54, 162, 235)',
+    pointBorderColor: '#fff',
+    pointHoverBackgroundColor: '#fff',
+    pointHoverBorderColor: 'rgb(54, 162, 235)'
+  }]
+};
     Analysis(res);
+    AnalRadar(dataTEST);
     //RRRRR = res;
     //createPages(1);
     //if (document.getElementById('pages'))

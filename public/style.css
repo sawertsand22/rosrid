@@ -262,10 +262,19 @@ align-items: center;
 }
 .chart-container
 {
-  width: 20rem;
-  height: 20rem;
+  width: 30rem;
+  height: 30rem;
   display: flex;
   align-items: center;
+   margin: 2rem;
+}
+.chart2-container
+{
+  width: 30rem;
+  height: 30rem;
+  display: flex;
+  align-items: center;
+   margin: 2rem;
 }
 body
 {
@@ -306,12 +315,8 @@ body
 {
   margin: 1rem;
 }
-.chart-container
-{
-  margin: auto;
-  text-align: center;
-  display: block;
-}
+
+
 
 .selectedBTN
 {
@@ -321,4 +326,10 @@ body
 .date-field
 {
   margin: 1rem;
+}
+.analis
+{
+  display: flex;
+  justify-content: center;
+  justify-items: center;
 }
