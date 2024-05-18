@@ -374,7 +374,7 @@ async function showAnalysis()
 
     let res=[];
     for (let keys in listUniversirty) {
-        res[keys] = await get_pages(listUniversirty[keys], diss, nioktr, rid, nauch, sort,sdComlete,edComlete);
+        res[keys] = await get_pages(listUniversirty[keys], true, true, true, true, sort,sdComlete,edComlete);
         console.log('keys', keys);
     }
     let res2 = [[],[],[],[]]; 
@@ -390,10 +390,10 @@ async function showAnalysis()
     console.log('res2', res2);
     let dataTEST = {
         labels: [
-            'diss',
-            'nioktr',
-            'rid',
-            'nauch',
+            'Диссертация',
+            'НИОКТР',
+            'РИД',
+            'Научный отчёт',
         ],
         datasets: []
     }
