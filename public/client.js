@@ -287,7 +287,7 @@ function Analysis(res) {
     new Chart(ctx, {
         type: 'doughnut',
         data: {
-            labels: ['Кубгу', 'Кубгту', 'Кубгаy', 'Кубгму'],
+            labels: ['КубГУ', 'КубГТУ','КубГАУ','КубГМУ'],
             datasets: [{
                 label: '# Работ по параметрам',
                 data: res,
@@ -386,7 +386,7 @@ async function showAnalysis()
         res2[keys][3] = await get_pages(listUniversirty[keys], false, false, false, true, sort,sdComlete,edComlete)
     
     }
-    let listUni = ['Кубгу', 'Кубгту','Кубгау','Кубгму']
+    let listUni = ['КубГУ', 'КубГТУ','КубГАУ','КубГМУ']
     console.log('res2', res2);
     let dataTEST = {
         labels: [
